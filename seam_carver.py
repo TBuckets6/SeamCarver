@@ -82,7 +82,8 @@ def find_vertical_seam(image: np.ndarray, energy=None):
     width = energy.shape[1]
 
     #create a 2d array of zeros (min2dArr[height][width]) to hold minimal values for DP approach 
-    min2dArr = np.array([[0 for i in range(width)] for j in range(height)], float)
+    #min2dArr = np.array([[0 for i in range(width)] for j in range(height)], float)
+    min2dArr = np.zeros((height, width), dtype=float)
 
     #copy the bottom row of energy values from energy array to min2dArr array
     # for i in range(width):
@@ -108,7 +109,8 @@ def find_vertical_seam(image: np.ndarray, energy=None):
     
     #Create a 1d np array that will represent least energy path where
     #each element is a pixel in each row of our seam.
-    leastEnergyVertSeam = np.array([0 for i in range(height)])
+    #leastEnergyVertSeam = np.array([0 for i in range(height)])
+    leastEnergyVertSeam = np.zeros(height, dtype=int)
     
     #Get the index where the minimum energy pixel is in the top row of the min2dArr
     leastEnergyVertSeam[0] = np.argmin(min2dArr[0])
