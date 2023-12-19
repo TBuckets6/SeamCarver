@@ -1,10 +1,13 @@
 # flake8: noqa
+
+import sys
+
 import time
 import numpy as np
 from PIL import Image
 from tqdm import tqdm
 
-SAMPLE_IMAGE_PATH = "InputImage.png"
+#SAMPLE_IMAGE_PATH = "InputImage.png"
 #SAMPLE_IMAGE_PATH = "sample_image.png"
 
 # --------------------- END TODO ---------------------------
@@ -118,7 +121,11 @@ def find_vertical_seam(image: np.ndarray, energy=None):
     for i in range(1, height):
         # Get the index of the minimum energy value among the adjacent pixels
         neighbor_indices = [leastEnergyVertSeam[i-1] - 1, leastEnergyVertSeam[i-1], leastEnergyVertSeam[i-1] + 1]
-        min_index = min(neighbor_indices, key=lambda x: min2dArr[i, x])
+        
+        try:
+            min_index = min(neighbor_indices, key=lambda x: min2dArr[i, x])
+        except:
+            continue
 
         # Update the current row with the index of the minimum energy value
         leastEnergyVertSeam[i] = min_index
@@ -155,6 +162,13 @@ def main():
     Generate a visualization of the energy and 2 visualizations
     of the seam carving algorithm.
     """
+    
+    if len(sys.argv) != 2:
+        print('usage: seam_carver.py <image_file>', file=sys.stderr)
+        sys.exit(1)
+    
+    SAMPLE_IMAGE_PATH = sys.argv[1]
+    
     vert_Count = 0
     horz_Count = 0
     # open image with pillow, an active fork of the defunct PIL library
